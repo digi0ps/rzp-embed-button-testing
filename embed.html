@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Embed Button</title>
+  </head>
+  <style>
+    .rzp-btn {
+      box-sizing: border-box;
+      position: relative;
+      display: block;
+      min-height: 38px;
+      width: 240px;
+      padding: 10px;
+      margin: 0 auto;
+      line-height: 18px;
+      font-weight: 600;
+      font-size: 14px;
+      font-family: Lato, Muli, -apple-system, BlinkMacSystemFont, Arial,
+        sans-serif;
+      word-break: break-word;
+      border-radius: 2px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.2);
+      z-index: 2;
+      text-decoration: none;
+    }
+
+    .small {
+      width: 120px;
+    }
+
+    .medium {
+      width: 180px;
+    }
+
+    .large {
+      width: 240px;
+    }
+  </style>
+  <body>
+    <span id="rzp-root">
+      <a class="rzp-btn" target="_blank"></a>
+      <div style="margin-top:4px;text-align:center">
+        <img
+          height="16px"
+          src="https://cdn.razorpay.com/static/assets/powered_by_razorpay.png"
+        /></div
+    ></span>
+    <script>
+      (() => {
+        const BASE_URL = "https://rzp.io/l/";
+        const $root = document.querySelector("#rzp-root");
+
+        /* Fetch params from URL */
+        const url = new URL(location.href);
+        const rzp_payment_slug = url.searchParams.get("slug");
+
+        if (!rzp_payment_slug) {
+          $root.remove();
+          document.write("Razorpay payment slug is needed for embed button");
+          return;
+        }
+
+        const text = url.searchParams.get("text") || "Pay Now";
+        const size = url.searchParams.get("size") || "medium";
+        const color = url.searchParams.get("color") || "#376f7";
+
+        const $rzpbtn = $root.querySelector("a");
+        $rzpbtn.setAttribute("href", BASE_URL + rzp_payment_slug);
+        $rzpbtn.classList.add(size);
+        $rzpbtn.style.backgroundColor = "#" + color;
+        $rzpbtn.innerText = text;
+      })();
+    </script>
+  </body>
+</html>
