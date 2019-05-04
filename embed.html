@@ -14,7 +14,6 @@
       min-height: 38px;
       width: 240px;
       padding: 10px;
-      margin: 0 auto;
       line-height: 18px;
       font-weight: 600;
       font-size: 14px;
@@ -27,6 +26,11 @@
       box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.2);
       z-index: 2;
       text-decoration: none;
+    }
+
+    .rzp-logo {
+      margin-top: 4px;
+      text-align: center;
     }
 
     .small {
@@ -44,7 +48,7 @@
   <body>
     <span id="rzp-root">
       <a class="rzp-btn" target="_blank"></a>
-      <div style="margin-top:4px;text-align:center">
+      <div class="rzp-logo">
         <img
           height="16px"
           src="https://cdn.razorpay.com/static/assets/powered_by_razorpay.png"
@@ -74,6 +78,9 @@
         $rzpbtn.classList.add(size);
         $rzpbtn.style.backgroundColor = "#" + color;
         $rzpbtn.innerText = text;
+
+        const $rzplogo = $root.querySelector('.rzp-logo');
+        $rzplogo.classList.add(size);
       })();
     </script>
   </body>

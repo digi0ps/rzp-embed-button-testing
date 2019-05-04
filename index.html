@@ -7,7 +7,7 @@
     <title>RZP Payment Pages Embed</title>
   </head>
   <body>
-    Buy this product.
+    Current solution
     <!--
         Variables need for  embed button:
             - rzp_payment_url ('https://rzp.io/l/OhbYJCZ')
@@ -16,9 +16,9 @@
             - button_color ('background-color:#FF430F')
 
         iFrame approach:
-            - Passing as script data variables:
+            - Passing as script data variables - DONE
                 this script in turn reads this variables and creates an url with these in place.
-            - Passing as url parameters to an iframe - done
+            - Passing as url parameters to an iframe - DONE
 
         ShadowDom approach:
             - Research whether page's js can change the styles of a shadow DOM
@@ -37,12 +37,13 @@
           src="https://cdn.razorpay.com/static/assets/powered_by_razorpay.png"
         /></div
     ></span>
-
+    
+    <div>Iframe Approach</div>
     <div class="razorpay-button"
-        data-slug="0l23h3a"
-        data-text="Buy this please :)"
-        data-color="3eb995"
-        data-size="medium"
+        data-slug="9tRWsTx"
+        data-text="Buy tickets"
+        data-color="FF430F"
+        data-size="large"
     ></div>
     <script src="./razorpay-embed.js"></script>
   </body>
