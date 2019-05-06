@@ -1,18 +1,8 @@
-// import * as constants from './constants'
-
-/** Temporary constants for now */
-const EMBED_PAGE_URL = 'embed.html'
-const SIZES = {
-  small: 120,
-  medium: 180,
-  large: 240
-}
-const OFFSET = 30
-const HEIGHT = 100
+import { EMBED_PAGE_URL, SIZES, OFFSET, HEIGHT } from '../constants'
 
 const MODE = 'dev'
 
-class iFrameEmbed {
+export class iFrameEmbed {
   constructor($div) {
     const { url, text, color, size } = $div.dataset
     this.$div = $div
@@ -57,23 +47,3 @@ class iFrameEmbed {
     this.$div.appendChild(this.iframe)
   }
 }
-
-const init = () => {
-  Array.prototype.forEach.call(
-    document.querySelectorAll('.razorpay-button'),
-    $btn => {
-      const iframe = new iFrameEmbed($btn)
-      iframe.create()
-    }
-  )
-}
-
-const listener = () => {
-  const { readyState } = document
-  if (readyState === 'interactive' || readyState == 'complete') {
-    init()
-    document.removeEventListener('readystatechange', listener)
-  }
-}
-
-document.addEventListener('readystatechange', listener)

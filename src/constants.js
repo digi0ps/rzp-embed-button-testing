@@ -7,3 +7,5 @@ export const SIZES = {
   medium: '180px',
   large: '240px'
 }
+
+export const SELECTOR = '.razorpay-shadow-button'

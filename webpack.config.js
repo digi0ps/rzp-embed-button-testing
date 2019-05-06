@@ -5,8 +5,8 @@ module.exports = {
   mode: 'production',
 
   entry: {
-    'embed-shadow': './src/razorpay-embed-shadow.js',
-    'embed-iframe': './src/razorpay-embed.js'
+    'embed-shadow': './src/shadow/index.js',
+    'embed-iframe': './src/iframe/index.js'
   },
 
   module: {
