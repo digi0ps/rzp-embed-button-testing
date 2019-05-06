@@ -1,11 +1,63 @@
-/* Creates an embed button using shadow DOM */
+/**
+ * Constants which are used in the code
+ */
+const constants = {
+  SELECTOR: '.razorpay-shadow-button',
+  LOGO_URL: 'https://cdn.razorpay.com/static/assets/powered_by_razorpay.png',
+  BASE_URL: 'https://rzp.io/l'
+}
 
-;(() => {
-  const constants = {
-    BASE_URL: 'https://rzp.io/l'
+/**
+ * ShadowedButton class abstracts the process of attaching a ShadowDOM,
+ * creating the button and logo images and attaching the styles.
+ * @method init Initiaites the process of creating the Shadowed Button.
+ */
+class ShadowedButton {
+  constructor($rzpDiv) {
+    const { slug, text, color, size } = $rzpDiv.dataset
+    this.slug = slug
+    this.$rzpDiv = $rzpDiv
+    this.text = text || 'Pay Now'
+    this.color = color || '376f7'
+    this.size = size || 'medium'
   }
 
-  const create_styles = $root => {
+  /**
+   * Initiaites the code for creating the Shadowed Button.
+   */
+  init() {
+    this._createShadowRoot()
+    this._attachStyles()
+    this._createElements()
+  }
+
+  _createShadowRoot = () => {
+    this.shadowRoot = this.$rzpDiv.attachShadow({ mode: 'closed' })
+  }
+
+  _createElements = () => {
+    const { slug, text, color, size } = this
+
+    const $btn = document.createElement('a')
+    const url = constants.BASE_URL + slug
+    $btn.classList.add('rzp-btn', size)
+    $btn.setAttribute('href', url)
+    $btn.style.backgroundColor = '#' + color
+    $btn.innerText = text
+    this.shadowRoot.appendChild($btn)
+
+    const $logo = document.createElement('img')
+    $logo.setAttribute('src', constants.LOGO_URL)
+    $logo.setAttribute('height', '16px')
+
+    const $logoCon = document.createElement('div')
+    $logoCon.classList.add('rzp-logo', size)
+    $logoCon.appendChild($logo)
+
+    this.shadowRoot.appendChild($logoCon)
+  }
+
+  _attachStyles = () => {
     const styles = document.createElement('style')
     styles.textContent = `
         .rzp-btn {
@@ -34,40 +86,13 @@
           .medium { width: 180px;}
           .large {width: 240px;}
         `
-    $root.appendChild(styles)
+    this.shadowRoot.appendChild(styles)
   }
+}
 
-  const create_elements = ($root, data) => {
-    const { slug, text, color, size } = data
-
-    const $btn = document.createElement('a')
-    const url = constants.BASE_URL + slug
-    $btn.classList.add('rzp-btn', size)
-    $btn.setAttribute('href', url)
-    $btn.style.backgroundColor = '#' + color
-    $btn.innerText = text
-    $root.appendChild($btn)
-
-    const $logo = document.createElement('img')
-    $logo.setAttribute(
-      'src',
-      'https://cdn.razorpay.com/static/assets/powered_by_razorpay.png'
-    )
-    $logo.setAttribute('height', '16px')
-
-    const $logoCon = document.createElement('div')
-    $logoCon.classList.add('rzp-logo', size)
-    $logoCon.appendChild($logo)
-    $root.appendChild($logoCon)
-  }
-
-  Array.prototype.forEach.call(
-    document.querySelectorAll('.razorpay-shadow-button'),
-    $btn => {
-      const { dataset } = $btn
-      const shadow = $btn.attachShadow({ mode: 'closed' })
-      create_styles(shadow)
-      create_elements(shadow, dataset)
-    }
-  )
+;(() => {
+  ;[].forEach.call(document.querySelectorAll(constants.SELECTOR), $rzpDiv => {
+    const s = new ShadowedButton($rzpDiv)
+    s.init()
+  })
 })()
