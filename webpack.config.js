@@ -5,8 +5,8 @@ module.exports = {
   mode: 'production',
 
   entry: {
-    'rzp-embed-shadow': './src/razorpay-embed-shadow.js',
-    'rzp-embed-iframe': './src/razorpay-embed.js'
+    'embed-shadow': './src/razorpay-embed-shadow.js',
+    'embed-iframe': './src/razorpay-embed.js'
   },
 
   module: {
@@ -18,8 +18,14 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              plugins: ['@babel/plugin-proposal-class-properties'],
-              presets: ['@babel/preset-env']
+              plugins: [
+                '@babel/plugin-proposal-class-properties',
+                '@babel/plugin-transform-arrow-functions',
+                '@babel/plugin-transform-classes',
+                '@babel/plugin-transform-destructuring',
+                '@babel/plugin-transform-shorthand-properties',
+                '@babel/plugin-transform-parameters'
+              ]
             }
           }
         ]
@@ -28,6 +34,8 @@ module.exports = {
   },
 
   plugins: [new CleanWebpackPlugin()],
+
+  devtool: 'source-map',
 
   output: {
     filename: '[name].min.js',
