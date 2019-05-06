@@ -7,7 +7,8 @@ const SIZES = {
   medium: 180,
   large: 240
 }
-const OFFSET = 15
+const OFFSET = 30
+const HEIGHT = 100
 
 const MODE = 'dev'
 
@@ -17,7 +18,7 @@ class iFrameEmbed {
     this.$div = $div
     this.url = url
     this.text = text
-    this.color = color
+    this.color = color.replace('#', '')
     this.size = size
   }
 
@@ -48,7 +49,7 @@ class iFrameEmbed {
     iframe.scrolling = 'no'
     iframe.frameBorder = 0
     iframe.width = SIZES[this.size] + OFFSET + 'px'
-    iframe.height = '70px'
+    iframe.height = HEIGHT + 'px'
     this.iframe = iframe
   }
 

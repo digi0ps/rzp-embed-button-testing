@@ -7,12 +7,14 @@
     <title>Embed Button</title>
   </head>
   <style>
-    .rzp-btn {
+    body {
+      padding: 10px;
+    }
+    #rzp-btn {
       box-sizing: border-box;
       position: relative;
       display: block;
       min-height: 38px;
-      width: 240px;
       padding: 10px;
       line-height: 18px;
       font-weight: 600;
@@ -23,65 +25,77 @@
       border-radius: 2px;
       text-align: center;
       color: #fff;
-      box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
       z-index: 2;
       text-decoration: none;
     }
-
-    .rzp-logo {
+    #rzp-logo {
       margin-top: 4px;
       text-align: center;
     }
-
     .small {
       width: 120px;
     }
-
     .medium {
       width: 180px;
     }
-
     .large {
       width: 240px;
     }
   </style>
   <body>
     <span id="rzp-root">
-      <a class="rzp-btn" target="_blank"></a>
-      <div class="rzp-logo">
+      <a id="rzp-btn" target="_blank"></a>
+      <div id="rzp-logo">
         <img
           height="16px"
           src="https://cdn.razorpay.com/static/assets/powered_by_razorpay.png"
         /></div
     ></span>
     <script>
-      (() => {
-        const BASE_URL = "https://rzp.io/l/";
-        const $root = document.querySelector("#rzp-root");
+      function queryParamsToObj() {
+        var paramsArray = location.search.substr(1).split('&')
+        var queryObj = {}
+        for (var i = 0; i < paramsArray.length; i++) {
+          var paramTuple = paramsArray[i].split('=')
+          queryObj[paramTuple[0]] = decodeURI(paramTuple[1])
+        }
+        return queryObj
+      }
 
-        /* Fetch params from URL */
-        const url = new URL(location.href);
-        const rzp_payment_slug = url.searchParams.get("slug");
+      function modifyButtonStyles(rzp_payment_url, size, color, text) {
+        var $rzpbtn = document.getElementById('rzp-btn')
+        $rzpbtn.setAttribute('href', rzp_payment_url)
+        $rzpbtn.classList.add(size)
+        $rzpbtn.style.backgroundColor = '#' + color
+        $rzpbtn.innerText = text
 
-        if (!rzp_payment_slug) {
-          $root.remove();
-          document.write("Razorpay payment slug is needed for embed button");
-          return;
+        const $rzplogo = document.getElementById('rzp-logo')
+        $rzplogo.classList.add(size)
+      }
+
+      function init() {
+        var $root = document.getElementById('rzp-root')
+
+        // Assign data to variables from query object
+        var queryObj = queryParamsToObj()
+        var rzp_payment_url = queryObj.url
+        var text = queryObj.text || 'Pay Now'
+        var size = queryObj.size || 'medium'
+        var color = queryObj.color || '#376f7'
+
+        // Error out if no payment url is passed
+        if (!queryObj.url) {
+          $root.remove()
+          document.write('Razorpay payment slug is needed for embed button')
+          return
         }
 
-        const text = url.searchParams.get("text") || "Pay Now";
-        const size = url.searchParams.get("size") || "medium";
-        const color = url.searchParams.get("color") || "#376f7";
+        modifyButtonStyles(rzp_payment_url, size, color, text)
+      }
 
-        const $rzpbtn = $root.querySelector("a");
-        $rzpbtn.setAttribute("href", BASE_URL + rzp_payment_slug);
-        $rzpbtn.classList.add(size);
-        $rzpbtn.style.backgroundColor = "#" + color;
-        $rzpbtn.innerText = text;
-
-        const $rzplogo = $root.querySelector('.rzp-logo');
-        $rzplogo.classList.add(size);
-      })();
+      // Boot up
+      init()
     </script>
   </body>
 </html>
